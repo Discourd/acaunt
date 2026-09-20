@@ -57,13 +57,10 @@
   }
   .logo .mark{
     width:34px; height:34px;
-    border-radius:10px;
-    background:linear-gradient(135deg, var(--accent), #4b32c9);
+    background: none;
     display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 4px 16px rgba(124,92,255,0.35);
-    flex:0 0 auto;
   }
-  .logo .mark img{ width:100%; height:100%; object-fit:cover; }
+  .logo .mark img{ width: 34px; height: 34px; }
   .logo .word{
     font-family:'Space Grotesk', sans-serif;
     font-weight:700;
@@ -166,23 +163,6 @@
   @media (min-width: 480px){
     .wrap{ align-items:center; padding-top:24px; }
   }
-  .content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-  .content img {
-    max-width: 100%;
-    height: auto;
-  }
-  .logo .mark {
-    background: none;
-  }
-  .logo .mark img {
-    width: 34px;
-    height: 34px;
-  }
 </style>
 </head>
 <body>
@@ -190,7 +170,7 @@
     <form onsubmit="return false;">
       <div class="logo">
         <span class="mark">
-          <img src="https://github.com/prhub-official-site/raw/main/logofile.png" alt="Discor Logo">
+          <img src="https://raw.githubusercontent.com/prhub-official-site/main/logofile.png" alt="Discor Logo">
         </span>
         <span class="word">Discor</span>
       </div>
@@ -217,9 +197,6 @@
 
       <p class="switch">アカウントが必要ですか？ <a href="#">登録</a></p>
     </form>
-  </div>
-  <div class="content">
-    <img src="https://github.com/prhub-official-site/raw/main/logofile.png" alt="logofile">
   </div>
 </body>
 </html>
